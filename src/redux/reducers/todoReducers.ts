@@ -35,3 +35,5 @@ export const todoReducer = (state: ITodoModel = initialState, action: MyTypes.Ro
             return state;
     }
 };
+
+export default todoReducer

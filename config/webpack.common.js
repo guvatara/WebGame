@@ -6,13 +6,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     // Where webpack looks to start building the bundle
-    entry: [paths.src + '/index.jsx'],
-
+    entry: [paths.src + '/index.tsx'],
+    devtool: 'inline-source-map',
     // Where webpack outputs the assets and bundles
     output: {
         path: paths.build,
         filename: '[name].bundle.js',
         publicPath: '/',
+    },
+
+    resolve: {
+        extensions: [ '.tsx', '.ts', '.js' ],
     },
 
     // Customize the webpack build process
@@ -47,6 +51,11 @@ module.exports = {
     module: {
         rules: [
             // JavaScript: Use Babel to transpile JavaScript files
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
             {test: /\.(js|jsx)$/, exclude: /node_modules/, use: {loader: 'babel-loader', options: {
                         // sourceRoot: '/',
                         retainLines: true,

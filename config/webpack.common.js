@@ -3,6 +3,7 @@ const paths = require('./paths')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
     // Where webpack looks to start building the bundle
@@ -45,6 +46,11 @@ module.exports = {
             template: paths.src + '/template.html', // template file
             filename: 'index.html', // output file
         }),
+        new ForkTsCheckerWebpackPlugin({
+            eslint: {
+                files: './src/**/*.{ts,tsx,js,jsx}' // required - same as command `eslint ./src/**/*.{ts,tsx,js,jsx} --ext .ts,.tsx,.js,.jsx`
+            }
+        })
     ],
 
     // Determine how modules within the project are treated
@@ -53,8 +59,12 @@ module.exports = {
             // JavaScript: Use Babel to transpile JavaScript files
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                loader: 'ts-loader',
                 exclude: /node_modules/,
+                options: {
+                    // disable type checker - we will use it in fork plugin
+                    transpileOnly: true
+                }
             },
             {test: /\.(js|jsx)$/, exclude: /node_modules/, use: {loader: 'babel-loader', options: {
                         // sourceRoot: '/',

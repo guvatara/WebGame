@@ -75,10 +75,9 @@ const MapStateToProps = (store: MyTypes.ReducerState) => {
   };
 };
 
-const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
+const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => Object ({
   addToDo: (item: string) => dispatch({ type: actionTypes.ADD, payload: item }),
   deleteToDo: (idx: number) => dispatch({ type: actionTypes.DELETE, payload: idx })
 });
 
-// @ts-ignore
 export default connect(MapStateToProps, MapDispatchToProps)(TodoContainer);
